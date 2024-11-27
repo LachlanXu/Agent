@@ -331,6 +331,8 @@ llm = ChatOpenAI(
     openai_api_base=OPENAI_API_BASE_URL,
 )
 
+
+
 # retriever = get_retriever()
 
 # chain = create_chain(llm, retriever)
@@ -362,7 +364,9 @@ def create_pre_chain(
 
 def new_chain(
     llm: BaseLanguageModel,
+    # retriever: BaseRetriever,
 ) -> Runnable:
+    # retriever_chain = create_retriever_chain(llm=llm, retriever=retriever)
     retriever_chain = create_pre_chain(llm=llm)
     _context = RunnableMap(
         {
@@ -398,6 +402,12 @@ def new_chain(
         | _context
         | response_synthesizer
     )
+
+# base_tavily_retriever = TavilySearchAPIRetriever(
+#     k=2,
+#     api_key=TAVILY_API_KEY
+# )
+# chain = new_chain(llm=llm, retriever=base_tavily_retriever)
 
 chain = new_chain(llm=llm)
 
